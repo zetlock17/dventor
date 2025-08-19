@@ -1,9 +1,9 @@
-export interface LoginData {
+export interface LoginMentorData {
   login: string;
   password: string;
 }
 
-export interface RegisterData {
+export interface RegisterMentorData {
   username: string;
   login: string;
   password: string;
