@@ -1,9 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
+import MainPage from './components/MainPage';
+import ProtectedRoute from './components/ProtectedRoute';
+
 function App() {
   return (
-    <>
-      <p>popa</p>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<MainPage />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
