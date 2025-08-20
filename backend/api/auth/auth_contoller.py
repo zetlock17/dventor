@@ -29,3 +29,9 @@ class AuthContoller:
     async def register_mentor(self, register_data: RegisterMentorSchema) -> AuthAnswerSchema:
         tokens = await self.auth_service.register_mentor(register_data=register_data)
         return tokens
+    
+    @auth_controller.post("/refresh-token", summary="Выдача нового токена")
+    @exception_handler
+    async def get_new_access_token(self, refresh_token: str) -> str:
+        token = await self.auth_service.get_new_access_token(refresh_token=refresh_token)
+        return token

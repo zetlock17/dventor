@@ -16,6 +16,16 @@ class InvalidPasswordErrorHttpException(HTTPException):
         message = "Неверный пароль"
         super().__init__(status_code=500, detail=message)
 
+class InvalidRefreshTokenErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Неверный рефреш-токен"
+        super().__init__(status_code=500, detail=message)
+
+class RefreshTokenExpiredErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Рефреш-токен истек"
+        super().__init__(status_code=500, detail=message)
+
 class InternalServerErrorHttpException(HTTPException):
     def __init__(
         self,

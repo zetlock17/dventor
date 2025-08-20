@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from .auth_func import make_access_token, make_refresh_token
-from ..exceptions import InvalidLoginErrorHttpException, InvalidPasswordErrorHttpException, LoginIsTakenErrorHttpException
+from .auth_func import decode_refresh_token, make_access_token, make_refresh_token
+from ..exceptions import InvalidLoginErrorHttpException, InvalidPasswordErrorHttpException, InvalidRefreshTokenErrorHttpException, LoginIsTakenErrorHttpException
 from ..mentors.mentor_service import MentorService
 from .auth_schemas import LoginMentorSchema, RegisterMentorSchema
 from .auth_repository import AuthRepository
@@ -60,3 +60,19 @@ class AuthService:
             "access_token": make_access_token(mentor.id),
             "refresh_token": make_refresh_token(mentor.id)
         }
+
+
+    async def get_new_access_token(self, refresh_token: str):
+        decode_token = decode_refresh_token(refresh_token=refresh_token)
+        mentor_id = decode_token.get("mentor_id")
+
+        if not mentor_id:
+            raise InvalidRefreshTokenErrorHttpException()
+        
+        mentor = await self.mentor_service.get_mentor_by_id(mentor_id=mentor_id)
+
+        if not mentor:
+            raise InvalidRefreshTokenErrorHttpException()
+        
+        return make_access_token(mentor_id=mentor.id)
+            

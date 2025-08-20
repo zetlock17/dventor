@@ -11,7 +11,12 @@ class MentorRepository:
         result = await self.session.execute(select(Mentor))
         mentors = result.scalars().all()
         return mentors
-
+    
+    async def get_mentor_by_id(self, mentor_id: int):
+        result = await self.session.execute(select(Mentor).where(Mentor.id == mentor_id))
+        mentor = result.scalar()
+        return mentor
+        
     async def add_mentor(self, mentor_data: dict):
         new_mentor = Mentor(**mentor_data)
         self.session.add(new_mentor)
