@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { getToken } from '../utils/tokenUtils';
-// import { refreshToken } from './sessionService';
+import { getAccessToken, getRefreshToken, setAccessToken } from '../utils/tokenUtils';
+import { refreshToken } from './authServices';
 
 export interface ApiResponse<T = unknown> {
   data: T;
@@ -10,7 +10,8 @@ export interface ApiResponse<T = unknown> {
 }
 
 const api: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  // baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'http://localhost:8000',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
@@ -19,7 +20,7 @@ const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = getToken();
+    const token = getAccessToken();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -38,9 +39,8 @@ export const getRequest = async <T = unknown>(url: string, params?: Record<strin
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        // refreshToken();
-        console.log('Token expired or unauthorized');
-        window.location.href = '/auth';
+        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
+        setAccessToken(newAccessToken)
       }
 
       if (error.response?.status === 404) {
@@ -76,9 +76,8 @@ export const postRequest = async <T = unknown>(url: string, data?: any): Promise
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        // refreshToken();
-        console.log('Token expired or unauthorized');
-        window.location.href = '/auth';
+        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
+        setAccessToken(newAccessToken)
       }
 
       if (error.response?.status === 404) {
@@ -110,9 +109,8 @@ export const deleteRequest = async <T = unknown>(url: string, data?: Record<stri
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        // refreshToken();
-        console.log('Token expired or unauthorized');
-        window.location.href = '/auth';
+        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
+        setAccessToken(newAccessToken)
       }
 
       if (error.response?.status === 404) {
@@ -144,9 +142,8 @@ export const patchRequest = async <T = unknown>(url: string, data?: Record<strin
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        // refreshToken();
-        console.log('Token expired or unauthorized');
-        window.location.href = '/auth';
+        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
+        setAccessToken(newAccessToken)
       }
 
       if (error.response?.status === 404) {

@@ -37,6 +37,8 @@ class AuthService:
         
         await self.auth_repository.add_auth_mentor(auth_mentor_data=auth_mentor_data)
 
+        print('fsdijofsdjkjfsdjkjsdklfdsjklfkljfsdjklfsdjkklfjklsdkfljsdkfjsdkl')
+
         return {
             "access_token": make_access_token(new_mentor_id),
             "refresh_token": make_refresh_token(new_mentor_id)

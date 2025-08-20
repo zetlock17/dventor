@@ -1,16 +1,28 @@
-const TOKEN_KEY = 'token';
+// const TOKEN_KEY = 'token';
 
-// получение токена
-export const getToken = (): string | null => {
-  return localStorage.getItem(TOKEN_KEY);
+// получение токенов
+export const getAccessToken = (): string | null => {
+  return localStorage.getItem("access_token");
+};
+
+export const getRefreshToken = (): string | null => {
+  return localStorage.getItem("refresh_token");
 };
 
 // установка токена
-export const setToken = (token: string): void => {
-  localStorage.setItem(TOKEN_KEY, token);
+export const setAccessToken = (access_token: string): void => {
+  localStorage.setItem("access_token", access_token);
 };
 
-// удаление токена
-export const removeToken = (): void => {
-  localStorage.removeItem(TOKEN_KEY);
+export const setRefreshToken = (refresh_token: string): void => {
+  localStorage.setItem("refresh_token", refresh_token);
+};
+
+// удаление токенов
+export const removeAccessToken = (): void => {
+  localStorage.removeItem("access_token");
+};
+
+export const removeRefreshToken = (): void => {
+  localStorage.removeItem("refresh_token");
 };

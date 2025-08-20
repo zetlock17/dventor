@@ -10,10 +10,10 @@ export interface RegisterMentorData {
 }
 
 export interface AuthResponse {
-  token: string;
-  user: {
-    id: string;
-    username: string;
-    login: string;
-  };
+  access_token: string;
+  refresh_token: string;
+}
+
+export interface RefreshTokenResponse {
+  access_token: string;
 }
