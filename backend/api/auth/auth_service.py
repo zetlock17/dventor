@@ -1,13 +1,12 @@
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from .auth_func import make_access_token, make_refresh_token
-from ..exceptions import LoginIsTakenErrorHttpException
+from ..exceptions import InvalidLoginErrorHttpException, InvalidPasswordErrorHttpException, LoginIsTakenErrorHttpException
 from ..mentors.mentor_service import MentorService
-from .auth_schemas import RegisterMentorSchema
+from .auth_schemas import LoginMentorSchema, RegisterMentorSchema
 from .auth_repository import AuthRepository
 from argon2 import PasswordHasher
-
-
+from argon2.exceptions import VerifyMismatchError 
 
 class AuthService:
     def __init__(self, session: AsyncSession):
@@ -41,4 +40,21 @@ class AuthService:
         return {
             "access_token": make_access_token(new_mentor_id),
             "refresh_token": make_refresh_token(new_mentor_id)
+        }
+    
+    async def login_mentor(self, login_data: LoginMentorSchema):
+
+        mentor = await self.auth_repository.get_auth_mentor_by_login(login=login_data.login)
+
+        if not mentor:
+            raise InvalidLoginErrorHttpException()
+
+        try:
+            self.password_hasher.verify(mentor.password, login_data.password)
+        except VerifyMismatchError:
+            raise InvalidPasswordErrorHttpException()
+
+        return {
+            "access_token": make_access_token(mentor.id),
+            "refresh_token": make_refresh_token(mentor.id)
         }

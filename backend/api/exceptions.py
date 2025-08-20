@@ -6,6 +6,15 @@ class LoginIsTakenErrorHttpException(HTTPException):
         message = "Логин уже занят"
         super().__init__(status_code=500, detail=message)
 
+class InvalidLoginErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Неверный логин"
+        super().__init__(status_code=500, detail=message)
+
+class InvalidPasswordErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Неверный пароль"
+        super().__init__(status_code=500, detail=message)
 
 class InternalServerErrorHttpException(HTTPException):
     def __init__(
