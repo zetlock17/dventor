@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from database.database import create_tables
 from fastapi.middleware.cors import CORSMiddleware
-from api import api
+from api.api import api
 
 @asynccontextmanager
 async def lifespawn(app: FastAPI):
