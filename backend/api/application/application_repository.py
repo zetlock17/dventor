@@ -38,16 +38,7 @@ class ApplicationRepository:
         result = await self.session.execute(select(Application).where(Application.id == application_id))
         applciation = result.scalar()
         applciation.status = "confirmed"
-        application_data = {
-            "login": applciation.login,
-            "password": applciation.password,
-            "username": applciation.username,
-            "specialization": applciation.specialization,
-            "experience": applciation.experience,
-            "telegram_id": applciation.telegram_id,
-            "telegram_username": applciation.telegram_username
-        }
-        return application_data
+        return applciation
         
     async def application_cancell(self, application_id: int):
         result = await self.session.execute(select(Application).where(Application.id == application_id))

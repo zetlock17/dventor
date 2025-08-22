@@ -26,6 +26,16 @@ class RefreshTokenExpiredErrorHttpException(HTTPException):
         message = "Рефреш-токен истек"
         super().__init__(status_code=500, detail=message)
 
+class ApplicationNotFoundErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Заявка не найдена"
+        super().__init__(status_code=500, detail=message)
+
+class ApplicationDuplicateErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Вы пытаетесь повторно отправить заявку или такой заявка не найдена"
+        super().__init__(status_code=500, detail=message)
+
 class InternalServerErrorHttpException(HTTPException):
     def __init__(
         self,

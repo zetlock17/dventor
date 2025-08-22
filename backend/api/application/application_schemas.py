@@ -20,5 +20,6 @@ class ApplicationCreateSchema(BaseModel):
     experience: int| None = Field()
 
 class TelegramDataSchema(BaseModel):
+    telegram_username: str = Field(...)
     telegram_id: str = Field(...)
     applciation_uuid: str = Field(...)

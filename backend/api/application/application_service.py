@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from ..exceptions import ApplicationDuplicateErrorHttpException, ApplicationNotFoundErrorHttpException
 from .application_schemas import ApplicationCreateSchema, TelegramDataSchema
 from .application_repository import ApplicationRepository
 from ..auth.auth_service import AuthService
@@ -26,12 +27,30 @@ class ApplicationService:
 
         application_data = await self.application_repository.check_and_get_application(telegram_data=telegram_data_dict)
 
+        if not application_data:
+            raise ApplicationDuplicateErrorHttpException()
+
         application_data['telegram_id'] = telegram_data['telegram_id']
+
+        application_data['telegram_username'] = telegram_data['telegram_username']
 
         await self.application_repository.create_application(application_data=application_data)
 
     async def application_confirmed(self, application_id: int):
-        register_data = await self.application_repository.application_confirmed(application_id=application_id)
+        applciation = await self.application_repository.application_confirmed(application_id=application_id)
+        if not applciation:
+            raise ApplicationNotFoundErrorHttpException()
+
+        register_data = {
+            "login": applciation.login,
+            "password": applciation.password,
+            "username": applciation.username,
+            "specialization": applciation.specialization,
+            "experience": applciation.experience,
+            "telegram_id": applciation.telegram_id,
+            "telegram_username": applciation.telegram_username
+        }
+
         await self.auth_service.register_mentor(register_data=register_data)
 
     async def application_cancell(self, application_id: int):
