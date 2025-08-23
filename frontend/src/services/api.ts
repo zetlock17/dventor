@@ -22,7 +22,7 @@ api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = getAccessToken();
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['token'] = token;
     }
     return config;
   },

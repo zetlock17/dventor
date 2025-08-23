@@ -1,5 +1,6 @@
 # database.py
 from contextlib import asynccontextmanager
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from typing import AsyncGenerator
@@ -27,7 +28,12 @@ async def get_session_obj() -> AsyncGenerator[AsyncSession, None]:
         yield session
     await session.close()
 
+@asynccontextmanager
+async def get_session_contextly() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session_maker() as session:
+        yield session
 
 async def create_tables():
     async with engine.begin() as conn:
         await conn.run_sync(base.metadata.create_all)
+

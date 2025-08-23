@@ -1,6 +1,5 @@
 from fastapi_restful.cbv import cbv
 from fastapi import APIRouter, Depends
-from config import CACHED
 from ..global_funcs import exception_handler
 from .auth_service import AuthService
 from database.database import get_session_obj

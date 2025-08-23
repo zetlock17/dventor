@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
+from api.global_funcs import create_admin_user
 from database.database import create_tables
 from fastapi.middleware.cors import CORSMiddleware
 from api.api import api
@@ -7,6 +8,7 @@ from api.api import api
 @asynccontextmanager
 async def lifespawn(app: FastAPI):
     await create_tables()
+    await create_admin_user()
     yield
     
 app = FastAPI(lifespan=lifespawn)

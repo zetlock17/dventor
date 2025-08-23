@@ -18,23 +18,13 @@ class User(base):
     __tablename__ = "users"
     id: int = Column(Integer, primary_key=True)
     type: UserType = Column(Enum(UserType), nullable=False)
+    login: str = Column(String, nullable=False, unique=True)
+    password: str = Column(String, nullable=False)
     username: str = Column(String, nullable=True)
     telegram_id: str = Column(String, nullable=True)
     telegram_username: str = Column(String, nullable=True)
     specialization: str = Column(String, nullable=True)
     experience: int = Column(Integer, nullable=True)
-
-
-class AuthorizationMentor(base):
-    __tablename__ = "authorization_mentors"
-
-    id: int = Column(Integer, primary_key=True)
-    login: str = Column(String, nullable=False, unique=True)
-    password: str = Column(String, nullable=False)
-    mentor_id: int = Column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-
-    mentor = relationship("User")
-
 
 class Application(base):
     __tablename__ = "appllications"

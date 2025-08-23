@@ -1,5 +1,7 @@
 from fastapi_restful.cbv import cbv
 from fastapi import APIRouter, Depends
+from ..auth.auth_func import admin_required
+from database.models import User
 from ..global_funcs import exception_handler
 from .application_schemas import ApplicationCreateSchema, ApplicationGetSchema, ApplicationSchema, TelegramDataSchema
 from .application_service import ApplicationService
@@ -16,7 +18,7 @@ class ApplicationController:
     
     @application_controller.get("/", summary="Выдача всех заявок")
     @exception_handler
-    async def get_applications(self) -> list[ApplicationGetSchema]:
+    async def get_applications(self , user: User = Depends(admin_required)) -> list[ApplicationGetSchema]:
         return await self.application_service.get_applications()
 
     @application_controller.post("/send", summary="Отправка заявки")
@@ -32,11 +34,11 @@ class ApplicationController:
     
     @application_controller.post("/confirm", summary="Подтверждение заявки")
     @exception_handler
-    async def application_confirm(self, application_id: int):
+    async def application_confirm(self, application_id: int, user: User = Depends(admin_required)):
         await self.application_service.application_confirm(application_id=application_id)
 
 
     @application_controller.post("/cancel", summary="Подтверждение заявки")
     @exception_handler
-    async def application_cancel(self, application_id: int):
+    async def application_cancel(self, application_id: int, user: User = Depends(admin_required)):
         await self.application_service.application_cancel(application_id=application_id)

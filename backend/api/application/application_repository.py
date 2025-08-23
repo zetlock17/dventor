@@ -18,8 +18,6 @@ class ApplicationRepository:
     async def check_and_get_application(self, telegram_data: dict):
         application_data = application_storage.get(telegram_data["application_uuid"])
 
-        print(application_storage)
-
         if not application_data:
             return None
         

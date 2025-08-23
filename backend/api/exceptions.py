@@ -16,14 +16,14 @@ class InvalidPasswordErrorHttpException(HTTPException):
         message = "Неверный пароль"
         super().__init__(status_code=500, detail=message)
 
-class InvalidRefreshTokenErrorHttpException(HTTPException):
+class InvalidTokenErrorHttpException(HTTPException):
     def __init__(self):
-        message = "Неверный рефреш-токен"
-        super().__init__(status_code=500, detail=message)
+        message = "Неверный токен"
+        super().__init__(status_code=401, detail=message)
 
-class RefreshTokenExpiredErrorHttpException(HTTPException):
+class TokenExpiredErrorHttpException(HTTPException):
     def __init__(self):
-        message = "Рефреш-токен истек"
+        message = "Токен истек"
         super().__init__(status_code=500, detail=message)
 
 class ApplicationNotFoundErrorHttpException(HTTPException):
@@ -34,6 +34,16 @@ class ApplicationNotFoundErrorHttpException(HTTPException):
 class ApplicationDuplicateErrorHttpException(HTTPException):
     def __init__(self):
         message = "Вы пытаетесь повторно отправить заявку или такой заявка не найдена"
+        super().__init__(status_code=500, detail=message)
+
+class UserNotFoundHttpExceptionErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Пользователь не найден"
+        super().__init__(status_code=500, detail=message)
+
+class NotHaveAccessExceptionErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Нет доступа"
         super().__init__(status_code=500, detail=message)
 
 class InternalServerErrorHttpException(HTTPException):
