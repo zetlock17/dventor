@@ -3,11 +3,11 @@ export interface LoginMentorData {
   password: string;
 }
 
-export interface RegisterMentorData {
-  username: string;
-  login: string;
-  password: string;
-}
+// export interface RegisterMentorData {
+//   username: string;
+//   login: string;
+//   password: string;
+// }
 
 export interface AuthResponse {
   access_token: string;

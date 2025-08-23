@@ -26,7 +26,7 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <h2>New application</h2>
+      <h2 className="text-xl font-semibold">Новая заявка</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -58,9 +58,9 @@ const RegisterPage = () => {
           value={experience}
           onChange={(e) => setExperience(e.target.value)}
         />
-        <button type="submit">Register</button>
+        <button type="submit" className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Отправить</button>
       </form>
-      <button onClick={() => navigate('/login')}>Go to Login</button>
+      <button onClick={() => navigate('/login')} className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Go to Login</button>
     </div>
   );
 };

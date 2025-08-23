@@ -30,21 +30,20 @@ const AdminPage = () => {
 
   return (
     <>
-        <h1>Admin Page</h1>
+        <h1 className="text-2xl font-bold">Admin Page</h1>
 
-        <ul>
+        <ul className="space-y-4 text-lg">
           {applications.map((app) => (
             <li key={app.id}>
                 <p>Username: {app.username}</p>
-                <p>Login: {app.login}</p>
-                <p>Password: {app.password}</p>
                 <p>Specialization: {app.specialization}</p>
                 <p>Experience: {app.experience}</p>
                 <p>Telegram ID: {app.telegram_id}</p>
-                <p>Telegram Username: {app.telegram_username}</p>
-                <p>Status: {app.status}</p>
-                <button onClick={() => handleConfirm(app.id)}>Confirm</button>
-                <button onClick={() => handleCancel(app.id)}>Cancel</button>
+                <p>Telegram Username: @{app.telegram_username}</p>
+                <div className="flex space-x-2">
+                  <button onClick={() => handleConfirm(app.id)} className="bg-green-500 text-white px-4 py-2 rounded">Confirm</button>
+                  <button onClick={() => handleCancel(app.id)} className="bg-red-500 text-white px-4 py-2 rounded">Cancel</button>
+                </div>
             </li>
           ))}
         </ul>

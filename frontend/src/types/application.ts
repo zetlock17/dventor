@@ -8,8 +8,6 @@ export interface newApplication {
 
 export interface application {
     id: number,
-    login: string,
-    password: string,
     username: string,
     specialization: string,
     experience: number,

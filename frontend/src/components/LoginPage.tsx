@@ -19,7 +19,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2 className="text-xl font-semibold">Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -33,9 +33,9 @@ const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button type="submit" className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Login</button>
       </form>
-      <button onClick={() => navigate('/register')}>Подать заявку на создание аккаунта ментора</button>
+      <button onClick={() => navigate('/register')} className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Подать заявку на создание аккаунта ментора</button>
     </div>
   );
 };
