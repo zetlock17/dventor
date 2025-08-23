@@ -1,28 +1,29 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from database.models import Application
+from database.models import Application, ApplicationStatus
 
-
+application_storage = {}
 
 class ApplicationRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
-        self.application_storage = {}
 
-    async def get_applications(self):
-        result = await self.session.execute(select(Application))
+    async def get_applications(self) -> list[Application]:
+        result = await self.session.execute(select(Application).where(Application.status == ApplicationStatus.PENDING))
         return result.scalars().all()
 
     async def save_application(self, application_uuid: str, application_data: dict):
-        self.application_storage[application_uuid] = application_data
+        application_storage[application_uuid] = application_data
 
     async def check_and_get_application(self, telegram_data: dict):
-        application_data = self.application_storage.get(telegram_data["application_uuid"])
+        application_data = application_storage.get(telegram_data["application_uuid"])
+
+        print(application_storage)
 
         if not application_data:
             return None
         
-        result = (await self.session.execute(select(Application).where(Application.telegram_id == telegram_data["telegram_id"] and Application.status != 'cancelled'))).first()
+        result = (await self.session.execute(select(Application).where(Application.telegram_id == telegram_data["telegram_id"] and Application.status != ApplicationStatus.CANCELLED))).first()
 
         if result:
             return None
@@ -34,14 +35,14 @@ class ApplicationRepository:
         self.session.add(new_application)
         await self.session.flush()
 
-    async def application_confirmed(self, application_id: int):
+    async def application_confirm(self, application_id: int):
         result = await self.session.execute(select(Application).where(Application.id == application_id))
-        applciation = result.scalar()
-        applciation.status = "confirmed"
-        return applciation
+        application = result.scalar()
+        application.status = ApplicationStatus.CONFIRMED
+        return application
         
-    async def application_cancell(self, application_id: int):
+    async def application_cancel(self, application_id: int):
         result = await self.session.execute(select(Application).where(Application.id == application_id))
-        applciation = result.scalar()
-        applciation.status = "cancelled"
+        application = result.scalar()
+        application.status = ApplicationStatus.CANCELLED
         

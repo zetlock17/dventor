@@ -16,21 +16,25 @@ class AuthService:
         self.mentor_service = MentorService(session=self.session)
 
 
-    async def register_mentor(self, register_data: RegisterMentorSchema):
-
+    async def register_mentor(self, register_data: dict):
+        
         mentor_data = {
-            "username" : register_data.username
+            "username": register_data["username"],
+            "specialization": register_data["specialization"],
+            "experience": register_data["experience"],
+            "telegram_id": register_data["telegram_id"],
+            "telegram_username": register_data["telegram_username"]
         }
 
         new_mentor_id = await self.mentor_service.add_mentor(mentor_data=mentor_data)
 
-        hashed_password = self.password_hasher.hash(register_data.password)
-
-        if not await self.auth_repository.login_free_check(login=register_data.login):
+        hashed_password = self.password_hasher.hash(register_data['password'])
+        
+        if not await self.auth_repository.login_free_check(login=register_data['login']):
             raise LoginIsTakenErrorHttpException
 
         auth_mentor_data = {
-            "login": register_data.login,
+            "login": register_data['login'],
             "password": hashed_password,
             "mentor_id": new_mentor_id
         }

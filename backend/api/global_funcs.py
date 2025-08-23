@@ -10,7 +10,9 @@ def exception_handler(func):
             return await func(*args, **kwargs)
         except Exception as e:
             if isinstance(e, HTTPException):
+                print(e)
                 raise e
+            print(e)
             raise InternalServerErrorHttpException(msg=str(e))
 
     return wrapper

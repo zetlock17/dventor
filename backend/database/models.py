@@ -9,13 +9,18 @@ class ApplicationStatus(PyEnum):
     CONFIRMED = "confirmed"
     CANCELLED = "cancelled"
 
-class Mentor(base):
-    __tablename__ = "mentors"
+class UserType(PyEnum):
+    MENTOR = "mentor"
+    ADMIN = "admin"
 
+
+class User(base):
+    __tablename__ = "users"
     id: int = Column(Integer, primary_key=True)
-    username: str = Column(String, nullable=False)
-    telegram_id: str = Column(String, nullable=False)
-    telegram_username: str = Column(String, nullable=False)
+    type: UserType = Column(Enum(UserType), nullable=False)
+    username: str = Column(String, nullable=True)
+    telegram_id: str = Column(String, nullable=True)
+    telegram_username: str = Column(String, nullable=True)
     specialization: str = Column(String, nullable=True)
     experience: int = Column(Integer, nullable=True)
 
@@ -26,9 +31,9 @@ class AuthorizationMentor(base):
     id: int = Column(Integer, primary_key=True)
     login: str = Column(String, nullable=False, unique=True)
     password: str = Column(String, nullable=False)
-    mentor_id: int = Column(ForeignKey("mentors.id", ondelete="CASCADE"), nullable=False)
+    mentor_id: int = Column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
-    mentor = relationship("Mentor")
+    mentor = relationship("User")
 
 
 class Application(base):

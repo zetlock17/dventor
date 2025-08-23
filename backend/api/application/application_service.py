@@ -13,14 +13,13 @@ class ApplicationService:
         self.auth_service = AuthService(session=self.session)
 
     async def get_applications(self):
-        return await self.application_repository.get_applications()
+        applications =  await self.application_repository.get_applications()
+        return applications
 
     async def save_application(self, application: ApplicationCreateSchema):
         application_uuid = str(uuid.uuid4())
         application_data = application.model_dump()
         await self.application_repository.save_application(application_uuid=application_uuid, application_data=application_data)
-
-        print(self.application_repository.application_storage)
 
         return application_uuid
     
@@ -28,36 +27,33 @@ class ApplicationService:
 
         telegram_data_dict = telegram_data.model_dump()
 
-        # print(telegram_data_dict)
-        # print(self.application_repository.application_storage)
-
         application_data = await self.application_repository.check_and_get_application(telegram_data=telegram_data_dict)
 
         if not application_data:
             raise ApplicationDuplicateErrorHttpException()
 
-        application_data['telegram_id'] = telegram_data['telegram_id']
+        application_data['telegram_id'] = telegram_data.telegram_id
 
-        application_data['telegram_username'] = telegram_data['telegram_username']
+        application_data['telegram_username'] = telegram_data.telegram_username
 
         await self.application_repository.create_application(application_data=application_data)
 
-    async def application_confirmed(self, application_id: int):
-        applciation = await self.application_repository.application_confirmed(application_id=application_id)
-        if not applciation:
+    async def application_confirm(self, application_id: int):
+        application = await self.application_repository.application_confirm(application_id=application_id)
+        if not application:
             raise ApplicationNotFoundErrorHttpException()
-
+        
         register_data = {
-            "login": applciation.login,
-            "password": applciation.password,
-            "username": applciation.username,
-            "specialization": applciation.specialization,
-            "experience": applciation.experience,
-            "telegram_id": applciation.telegram_id,
-            "telegram_username": applciation.telegram_username
+            "login": application.login,
+            "password": application.password,
+            "username": application.username,
+            "specialization": application.specialization,
+            "experience": application.experience,
+            "telegram_id": application.telegram_id,
+            "telegram_username": application.telegram_username
         }
 
         await self.auth_service.register_mentor(register_data=register_data)
 
-    async def application_cancell(self, application_id: int):
-        self.application_repository.application_cancell(application_id=application_id)
+    async def application_cancel(self, application_id: int):
+        await self.application_repository.application_cancel(application_id=application_id)

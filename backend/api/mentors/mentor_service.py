@@ -1,7 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from .mentor_repository import MentorRepository
-
-
+from database.models import UserType
 class MentorService:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -15,5 +14,6 @@ class MentorService:
         return await self.mentor_repository.get_mentor_by_id(mentor_id=mentor_id) 
 
     async def add_mentor(self, mentor_data: dict):
+        mentor_data['type'] = UserType.MENTOR
         new_mentor_id = await self.mentor_repository.add_mentor(mentor_data=mentor_data)
         return new_mentor_id

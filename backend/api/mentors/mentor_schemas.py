@@ -8,3 +8,6 @@ class MentorSchema(BaseModel):
     experience: int| None = Field()
     telegram_id: str = Field(...)
     telegram_username: str = Field(...)
+
+    class Config:
+        from_attributes = True
