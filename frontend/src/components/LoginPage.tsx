@@ -35,7 +35,7 @@ const LoginPage = () => {
         />
         <button type="submit">Login</button>
       </form>
-      <button onClick={() => navigate('/register')}>Go to Register</button>
+      <button onClick={() => navigate('/register')}>Подать заявку на создание аккаунта ментора</button>
     </div>
   );
 };

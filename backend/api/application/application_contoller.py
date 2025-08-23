@@ -16,7 +16,7 @@ class ApplicationController:
     
     @application_controller.get("/", summary="Выдача всех заявок")
     @exception_handler
-    async def get_applications(self) -> ApplicationSchema:
+    async def get_applications(self) -> list[ApplicationSchema]:
         return await self.application_service.get_applications()
 
     @application_controller.post("/send", summary="Отправка заявки")

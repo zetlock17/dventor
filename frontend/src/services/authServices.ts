@@ -1,6 +1,6 @@
 import { postRequest, getRequest, type ApiResponse } from './api';
 import { setAccessToken, setRefreshToken, removeAccessToken, removeRefreshToken } from '../utils/tokenUtils';
-import type { LoginMentorData, RegisterMentorData, AuthResponse, RefreshTokenResponse } from '../types/auth';
+import type { LoginMentorData, AuthResponse, RefreshTokenResponse } from '../types/auth';
 
 export const login = async (data: LoginMentorData): Promise<ApiResponse<AuthResponse>> => {
   const response = await postRequest<AuthResponse>('/auth/login', data);
@@ -13,16 +13,16 @@ export const login = async (data: LoginMentorData): Promise<ApiResponse<AuthResp
   return response;
 };
 
-export const register = async (data: RegisterMentorData): Promise<ApiResponse<AuthResponse>> => {
-  const response = await postRequest<AuthResponse>('/auth/register/mentor', data);
+// export const register = async (data: RegisterMentorData): Promise<ApiResponse<AuthResponse>> => {
+//   const response = await postRequest<AuthResponse>('/auth/register/mentor', data);
 
-  if (response.data && response.data.access_token) {
-    setAccessToken(response.data.access_token); 
-    setRefreshToken(response.data.refresh_token);
-  }
+//   if (response.data && response.data.access_token) {
+//     setAccessToken(response.data.access_token); 
+//     setRefreshToken(response.data.refresh_token);
+//   }
 
-  return response;
-};
+//   return response;
+// };
 
 export const refreshToken = async (refreshToken: string | null): Promise<RefreshTokenResponse> => {
   try {

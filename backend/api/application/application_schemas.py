@@ -1,7 +1,9 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from database.models import ApplicationStatus
 
 class ApplicationSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int = Field(...)
     login: str = Field(...)
     password: str = Field(..., min_length=8)

@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../services/authServices';
+import { createApplication } from '../services/applicationServices';
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState('');
-  const [loginField, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [login, setLogin] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [specialization, setSpecialization] = useState<string>('');
+  const [experience, setExperience] = useState<string>('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await register({ username, login: loginField, password });
+    const response = await createApplication({ username, login, password, specialization, experience });
     if (response.status === 200 || response.status === 201) {
+      alert('всё гуд')
+      alert('https://t.me/pizdotesto_bot?start=' + response.data)
+      console.log(response)
       navigate('/');
     } else {
       alert(response.message);
@@ -21,7 +26,7 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <h2>Register</h2>
+      <h2>New application</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -32,7 +37,7 @@ const RegisterPage = () => {
         <input
           type="text"
           placeholder="Login"
-          value={loginField}
+          value={login}
           onChange={(e) => setLogin(e.target.value)}
         />
         <input
@@ -40,6 +45,18 @@ const RegisterPage = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+        <input 
+          type="text"
+          placeholder="Specialization"
+          value={specialization}
+          onChange={(e) => setSpecialization(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Experience"
+          value={experience}
+          onChange={(e) => setExperience(e.target.value)}
         />
         <button type="submit">Register</button>
       </form>

@@ -19,11 +19,17 @@ class ApplicationService:
         application_uuid = str(uuid.uuid4())
         application_data = application.model_dump()
         await self.application_repository.save_application(application_uuid=application_uuid, application_data=application_data)
+
+        print(self.application_repository.application_storage)
+
         return application_uuid
     
     async def create_application(self, telegram_data: TelegramDataSchema):
 
         telegram_data_dict = telegram_data.model_dump()
+
+        # print(telegram_data_dict)
+        # print(self.application_repository.application_storage)
 
         application_data = await self.application_repository.check_and_get_application(telegram_data=telegram_data_dict)
 

@@ -13,27 +13,36 @@ bot = telebot.TeleBot(TOKEN)
 
 
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message: Message):
-    bot.reply_to(message, "Привет я бот для сервиса наставников")
+# @bot.message_handler(commands=['start'])
+# def send_welcome(message: Message):
+#     bot.reply_to(message, "Привет я бот для сервиса наставников")
 
 @bot.message_handler(func=lambda message: message.text.startswith('/start '))
 def handle_start_with_parameter(message: Message):
 
     parts = message.text.split(' ')
 
+    print(
+        "telegram_username:", message.from_user.username, "type:", type(message.from_user.username), "\n"
+        "telegram_id:", message.from_user.id, "type:", type(str(message.from_user.id)), "\n"
+        "applciation_uuid:", parts[1], "type:", type(parts[1])
+    )
+
     payload = {
-        "application_uuid": parts[1],
         "telegram_username": message.from_user.username,
-        "telegram_id": message.from_user.id
+        "telegram_id": str(message.from_user.id),
+        "applciation_uuid": parts[1],
     }
 
-    response = requests.post(url=BACK_URL, data=payload)
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    response = requests.post(url=f"{BACK_URL}", json=payload, headers=headers)
 
     if response.status_code == 200:
         bot.send_message(chat_id=message.chat.id, text="Спасибо, вы отправили заявку")
     else:
-        bot.send_message(chat_id=message.chat.id, text=f'Произошла ошибка {response.status_code}')
+        bot.send_message(chat_id=message.chat.id, text=f'Произошла ошибка {response}')
     
 
 bot.polling()
