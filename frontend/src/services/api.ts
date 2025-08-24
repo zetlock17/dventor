@@ -30,17 +30,9 @@ api.interceptors.request.use(
 );
 
 const RefreshTokenHandler = async () => {
-  api.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-      const token = getRefreshToken();
-      if (token) {
-        config.headers['token'] = token;
-      }
-      return config;
-    },
-    (error: AxiosError) => Promise.reject(error)
-  );
+  api.defaults.headers.common['token'] = getRefreshToken()
   const newAccessToken: string = (await refreshToken()).access_token;
+  api.defaults.headers.common['token'] = newAccessToken
   setAccessToken(newAccessToken)
 }
 
@@ -63,17 +55,16 @@ export const getRequest = async <T = unknown>(url: string, params?: Record<strin
 
       console.error(`API error for ${url}:`, error);
 
-      const isArrayResponse = url.includes('/api/programs/');
       return {
-        data: (isArrayResponse ? [] : {}) as T,
+        data: {} as T,
         status: error.response?.status || 500,
         message: (error.response?.data as { detail: string })?.detail || error.message,
       };
     }
     console.error(`An unexpected error occurred for ${url}:`, error);
-    const isArrayResponse = url.includes('/api/programs/');
+
     return {
-      data: (isArrayResponse ? [] : {}) as T,
+      data: {} as T,
       status: 500,
       message: error instanceof Error ? error.message : 'An unexpected error occurred',
     };

@@ -26,9 +26,7 @@ export const login = async (data: LoginMentorData): Promise<ApiResponse<AuthResp
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
   try {
-    const response = await postRequest<RefreshTokenResponse>('auth/refresh-token', {
-      refresh_token: refreshToken
-    });
+    const response = await postRequest<RefreshTokenResponse>('auth/refresh-token');
     
     return response.data;
   } catch (error) {
