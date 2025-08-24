@@ -1,3 +1,4 @@
+import time
 from fastapi import Header
 from database.database import get_session_contextly
 from database.models import User
@@ -10,7 +11,7 @@ from ..global_funcs import exception_handler
 def make_access_token(user_id: int):
     return  jwt.encode({
         "user_id": user_id,
-        "exp": datetime.utcnow() + timedelta(minutes=1)
+        "exp": datetime.utcnow() + timedelta(seconds=20)
     }, key=SECRET_KEY, algorithm=ALGORITHM)
 
 
@@ -23,6 +24,8 @@ def make_refresh_token(user_id: int):
 
 def decode_token(token: str):
     try:
+        print(token)
+        time.sleep(5)
         decode_token = jwt.decode(token, key=SECRET_KEY, algorithms=[ALGORITHM])
         return decode_token
     except jwt.ExpiredSignatureError:
