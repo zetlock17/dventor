@@ -1,9 +1,9 @@
 from fastapi_restful.cbv import cbv
-from fastapi import APIRouter, Depends, UploadFile
+from fastapi import APIRouter, Depends
 from ..auth.auth_func import admin_required
 from database.models import User
 from ..global_funcs import exception_handler
-from .application_schemas import ApplicationCreateSchema, ApplicationGetSchema, ApplicationSchema, TelegramDataSchema
+from .application_schemas import ApplicationCreateSchema, ApplicationGetSchema, TelegramDataSchema
 from .application_service import ApplicationService
 from database.database import get_session_obj
 from sqlalchemy.ext.asyncio import AsyncSession

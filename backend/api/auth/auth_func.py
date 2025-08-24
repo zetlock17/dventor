@@ -10,14 +10,14 @@ from ..global_funcs import exception_handler
 def make_access_token(user_id: int):
     return  jwt.encode({
         "user_id": user_id,
-        "exp": datetime.now() + timedelta(minutes=1)
+        "exp": datetime.utcnow() + timedelta(minutes=15)
     }, key=SECRET_KEY, algorithm=ALGORITHM)
 
 
 def make_refresh_token(user_id: int):
     return  jwt.encode({
         "user_id": user_id,
-        "exp": datetime.now() + timedelta(days=14)
+        "exp": datetime.utcnow() + timedelta(days=14)
     }, key=SECRET_KEY, algorithm=ALGORITHM)
 
 
