@@ -53,7 +53,7 @@ export const getRequest = async <T = unknown>(url: string, params?: Record<strin
       return {
         data: (isArrayResponse ? [] : {}) as T,
         status: error.response?.status || 500,
-        message: (error.response?.data as { message: string })?.message || error.message,
+        message: (error.response?.data as { detail: string })?.detail || error.message,
       };
     }
     console.error(`An unexpected error occurred for ${url}:`, error);
@@ -87,7 +87,7 @@ export const postRequest = async <T = unknown>(url: string, data?: any): Promise
       return {
         data: {} as T,
         status: error.response?.status || 500,
-        message: (error.response?.data as { message: string })?.message || error.message,
+        message: (error.response?.data as { detail: string })?.detail || error.message,
       };
     }
     console.error(`An unexpected error occurred for ${url}:`, error);
@@ -120,7 +120,7 @@ export const deleteRequest = async <T = unknown>(url: string, data?: Record<stri
       return {
         data: {} as T,
         status: error.response?.status || 500,
-        message: (error.response?.data as { message: string })?.message || error.message,
+        message: (error.response?.data as { detail: string })?.detail || error.message,
       };
     }
     console.error(`An unexpected error occurred for ${url}:`, error);

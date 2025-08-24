@@ -33,9 +33,9 @@ const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Login</button>
+        <button type="submit" className='bg-[var(--main-purple)] text-white px-4 py-2 rounded mt-2'>Login</button>
       </form>
-      <button onClick={() => navigate('/register')} className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Подать заявку на создание аккаунта ментора</button>
+      <button onClick={() => navigate('/register')} className='bg-[var(--accent-green)] text-white px-4 py-2 rounded mt-2'>Подать заявку на создание аккаунта ментора</button>
     </div>
   );
 };

@@ -31,7 +31,8 @@ def handle_start_with_parameter(message: Message):
     print(
         "telegram_username:", message.from_user.username, "type:", type(message.from_user.username), "\n"
         "telegram_id:", message.from_user.id, "type:", type(str(message.from_user.id)), "\n"
-        "application_uuid:", parts[1], "type:", type(parts[1])
+        "application_uuid:", parts[1], "type:", type(parts[1]),
+        "chat_id", message.chat.id
     )
 
     headers = {
@@ -42,7 +43,8 @@ def handle_start_with_parameter(message: Message):
     if response.status_code == 200:
         bot.send_message(chat_id=message.chat.id, text="Спасибо, вы отправили заявку")
     else:
-        bot.send_message(chat_id=message.chat.id, text=f'Произошла ошибка {response}')
+        data = response.json()
+        bot.send_message(chat_id=message.chat.id, text=f'Произошла ошибка\n{data["detail"]}')
     
 
 bot.polling()

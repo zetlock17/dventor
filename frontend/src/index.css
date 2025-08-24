@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+:root {
+  --main-purple: rgba(168,85,247,1);
+  --accent-green: rgba(25, 199, 88, 1);
+}

@@ -58,9 +58,9 @@ const RegisterPage = () => {
           value={experience}
           onChange={(e) => setExperience(e.target.value)}
         />
-        <button type="submit" className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Отправить</button>
+        <button type="submit" className='bg-[var(--main-purple)] text-white px-4 py-2 rounded mt-2'>Отправить</button>
       </form>
-      <button onClick={() => navigate('/login')} className='bg-blue-500 text-white px-4 py-2 rounded mt-2'>Go to Login</button>
+      <button onClick={() => navigate('/login')} className='bg-[var(--main-purple)] text-white px-4 py-2 rounded mt-2'>Go to Login</button>
     </div>
   );
 };
