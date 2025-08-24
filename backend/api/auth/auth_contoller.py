@@ -25,6 +25,6 @@ class AuthContoller:
     
     @auth_controller.post("/refresh-token", summary="Выдача нового токена")
     @exception_handler
-    async def get_new_access_token(self, token: str) -> str:
+    async def get_new_access_token(self, token: str = Header(None)) -> str:
         token = await self.auth_service.get_new_access_token(refresh_token=token)
         return token
