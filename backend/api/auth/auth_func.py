@@ -37,7 +37,7 @@ def decode_token(token: str):
 @exception_handler
 async def type_required(
     type: str,
-    token: str,
+    token: str = Header(None)
 ):
     async with get_session_contextly() as session:
 
@@ -51,5 +51,5 @@ async def type_required(
 
         return user
 
-async def admin_required(token: str):
+async def admin_required(token: str = Header(None)):
     return await type_required(type="admin", token=token)
