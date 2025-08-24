@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { getAccessToken, getRefreshToken, setAccessToken } from '../utils/tokenUtils';
+import { getAccessToken, getRefreshToken } from '../utils/tokenUtils';
 import { refreshToken } from './authServices';
 
 export interface ApiResponse<T = unknown> {
@@ -11,7 +11,7 @@ export interface ApiResponse<T = unknown> {
 
 const api: AxiosInstance = axios.create({
   // baseURL: import.meta.env.VITE_API_URL,
-  baseURL: 'http://localhost:8000',
+  baseURL: 'http://localhost:8001',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
@@ -30,10 +30,12 @@ api.interceptors.request.use(
 );
 
 const RefreshTokenHandler = async () => {
-  api.defaults.headers.common['token'] = getRefreshToken()
-  const newAccessToken: string = (await refreshToken()).access_token;
-  api.defaults.headers.common['token'] = newAccessToken
-  setAccessToken(newAccessToken)
+  // api.defaults.headers.common['token'] = getRefreshToken()
+  // const newAccessToken: string = (await refreshToken()).access_token;
+  // api.defaults.headers.common['token'] = newAccessToken
+  // setAccessToken(newAccessToken)
+  const response = await refreshToken(getRefreshToken())
+  console.log(response)
 }
 
 export const getRequest = async <T = unknown>(url: string, params?: Record<string, unknown>): Promise<ApiResponse<T>> => {
