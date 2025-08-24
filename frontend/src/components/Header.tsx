@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { logout } from '../services/authServices';
 
 const Header = () => {
   return (
@@ -9,6 +10,7 @@ const Header = () => {
         <div className="ml-auto flex gap-2">
           <Link to="/login" className="text-gray-600 hover:text-gray-800 px-3 py-1">Login</Link>
           <Link to="/register" className="text-white bg-[var(--main-purple)] hover:bg-purple-600 px-3 py-1 rounded">Register</Link>
+          <button onClick={() => logout()}>Logout</button>
         </div>
       </nav>
     </header>

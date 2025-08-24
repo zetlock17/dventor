@@ -24,7 +24,7 @@ export const login = async (data: LoginMentorData): Promise<ApiResponse<AuthResp
 //   return response;
 // };
 
-export const refreshToken = async (refreshToken: string | null): Promise<RefreshTokenResponse> => {
+export const refreshToken = async (): Promise<RefreshTokenResponse> => {
   try {
     const response = await getRequest<RefreshTokenResponse>('/refresh-token', {
       refresh_token: refreshToken
@@ -34,12 +34,13 @@ export const refreshToken = async (refreshToken: string | null): Promise<Refresh
   } catch (error) {
     console.error('Failed to refresh token:', error);
     logout()
-    window.location.href = '/auth';
+    window.location.href = '/login';
     throw new Error('Token refresh failed');
   }
 };
 
 export const logout = (): void => {
+  alert("Вы вышли из аккаунта!")
   removeAccessToken();
   removeRefreshToken();
 };

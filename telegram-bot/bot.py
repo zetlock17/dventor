@@ -28,12 +28,12 @@ def handle_start_with_parameter(message: Message):
         "application_uuid": parts[1],
     }
 
-    print(
-        "telegram_username:", message.from_user.username, "type:", type(message.from_user.username), "\n"
-        "telegram_id:", message.from_user.id, "type:", type(str(message.from_user.id)), "\n"
-        "application_uuid:", parts[1], "type:", type(parts[1]),
-        "chat_id", message.chat.id
-    )
+    # print(
+    #     "telegram_username:", message.from_user.username, "type:", type(message.from_user.username), "\n"
+    #     "telegram_id:", message.from_user.id, "type:", type(str(message.from_user.id)), "\n"
+    #     "application_uuid:", parts[1], "type:", type(parts[1]),
+    #     "chat_id", message.chat.id
+    # )
 
     headers = {
         'Content-Type': 'application/json'

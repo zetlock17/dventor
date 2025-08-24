@@ -24,7 +24,7 @@ class InvalidTokenErrorHttpException(HTTPException):
 class TokenExpiredErrorHttpException(HTTPException):
     def __init__(self):
         message = "Токен истек"
-        super().__init__(status_code=500, detail=message)
+        super().__init__(status_code=401, detail=message)
 
 class ApplicationNotFoundErrorHttpException(HTTPException):
     def __init__(self):

@@ -23,7 +23,7 @@ class ApplicationController:
 
     @application_controller.post("/send", summary="Отправка заявки")
     @exception_handler
-    async def take_application(self, file: UploadFile,application: ApplicationCreateSchema) -> str:
+    async def take_application(self, application: ApplicationCreateSchema) -> str:
         application_uuid = await self.application_service.save_application(application=application)
         return application_uuid
 

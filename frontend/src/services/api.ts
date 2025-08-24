@@ -29,6 +29,21 @@ api.interceptors.request.use(
   (error: AxiosError) => Promise.reject(error)
 );
 
+const RefreshTokenHandler = async () => {
+  api.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+      const token = getRefreshToken();
+      if (token) {
+        config.headers['token'] = token;
+      }
+      return config;
+    },
+    (error: AxiosError) => Promise.reject(error)
+  );
+  const newAccessToken: string = (await refreshToken()).access_token;
+  setAccessToken(newAccessToken)
+}
+
 export const getRequest = async <T = unknown>(url: string, params?: Record<string, unknown>): Promise<ApiResponse<T>> => {
   try {
     const response: AxiosResponse<T> = await api.get(url, { params });
@@ -39,8 +54,7 @@ export const getRequest = async <T = unknown>(url: string, params?: Record<strin
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
-        setAccessToken(newAccessToken)
+        RefreshTokenHandler()
       }
 
       if (error.response?.status === 404) {
@@ -76,8 +90,7 @@ export const postRequest = async <T = unknown>(url: string, data?: any): Promise
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
-        setAccessToken(newAccessToken)
+        RefreshTokenHandler()
       }
 
       if (error.response?.status === 404) {
@@ -109,8 +122,7 @@ export const deleteRequest = async <T = unknown>(url: string, data?: Record<stri
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
-        setAccessToken(newAccessToken)
+        RefreshTokenHandler()
       }
 
       if (error.response?.status === 404) {
@@ -142,8 +154,7 @@ export const patchRequest = async <T = unknown>(url: string, data?: Record<strin
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 403 || error.response?.status === 401) {
-        const newAccessToken: string = (await refreshToken(getRefreshToken())).access_token;
-        setAccessToken(newAccessToken)
+        RefreshTokenHandler()
       }
 
       if (error.response?.status === 404) {
