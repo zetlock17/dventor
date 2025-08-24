@@ -43,7 +43,7 @@ class AuthService:
 
 
     async def get_new_access_token(self, refresh_token: str):
-        dec_token = decode_token(refresh_token=refresh_token)
+        dec_token = decode_token(token=refresh_token)
         mentor_id = dec_token.get("mentor_id")
 
         if not mentor_id:

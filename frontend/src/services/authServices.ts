@@ -1,4 +1,4 @@
-import { postRequest, getRequest, type ApiResponse } from './api';
+import { postRequest, type ApiResponse } from './api';
 import { setAccessToken, setRefreshToken, removeAccessToken, removeRefreshToken } from '../utils/tokenUtils';
 import type { LoginMentorData, AuthResponse, RefreshTokenResponse } from '../types/auth';
 
@@ -26,7 +26,7 @@ export const login = async (data: LoginMentorData): Promise<ApiResponse<AuthResp
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
   try {
-    const response = await getRequest<RefreshTokenResponse>('/refresh-token', {
+    const response = await postRequest<RefreshTokenResponse>('auth/refresh-token', {
       refresh_token: refreshToken
     });
     
