@@ -1,5 +1,5 @@
 from fastapi_restful.cbv import cbv
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, UploadFile
 from ..auth.auth_func import admin_required
 from database.models import User
 from ..global_funcs import exception_handler
@@ -23,7 +23,7 @@ class ApplicationController:
 
     @application_controller.post("/send", summary="Отправка заявки")
     @exception_handler
-    async def take_application(self, application: ApplicationCreateSchema) -> str:
+    async def take_application(self, file: UploadFile,application: ApplicationCreateSchema) -> str:
         application_uuid = await self.application_service.save_application(application=application)
         return application_uuid
 
