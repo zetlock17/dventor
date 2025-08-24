@@ -12,7 +12,7 @@ SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///database/dventor.db"
 
 
 engine = create_async_engine(
-    SQLALCHEMY_DATABASE_URL, echo=True
+    SQLALCHEMY_DATABASE_URL
 )
 
 async_session_maker = async_sessionmaker(
