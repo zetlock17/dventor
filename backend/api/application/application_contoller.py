@@ -18,7 +18,8 @@ class ApplicationController:
     
     @application_controller.get("/", summary="Выдача всех заявок")
     @exception_handler
-    async def get_applications(self , user: User = Depends(admin_required)) -> list[ApplicationGetSchema]:
+    async def get_applications(self , token: str) -> list[ApplicationGetSchema]:
+        user = admin_required(token=token)
         return await self.application_service.get_applications()
 
     @application_controller.post("/send", summary="Отправка заявки")
@@ -34,11 +35,14 @@ class ApplicationController:
     
     @application_controller.post("/confirm", summary="Подтверждение заявки")
     @exception_handler
-    async def application_confirm(self, application_id: int, user: User = Depends(admin_required)):
+    async def application_confirm(self, application_id: int, token: str):
+        user = admin_required(token=token)
         await self.application_service.application_confirm(application_id=application_id)
 
 
     @application_controller.post("/cancel", summary="Подтверждение заявки")
     @exception_handler
-    async def application_cancel(self, application_id: int, user: User = Depends(admin_required)):
+    async def application_cancel(self, application_id: int, token: str):
+        user = admin_required(token=token)
         await self.application_service.application_cancel(application_id=application_id)
+        

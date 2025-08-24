@@ -11,7 +11,7 @@ from ..global_funcs import exception_handler
 def make_access_token(user_id: int):
     return  jwt.encode({
         "user_id": user_id,
-        "exp": datetime.utcnow() + timedelta(seconds=20)
+        "exp": datetime.utcnow() + timedelta(seconds=10)
     }, key=SECRET_KEY, algorithm=ALGORITHM)
 
 
@@ -25,7 +25,8 @@ def make_refresh_token(user_id: int):
 def decode_token(token: str):
     try:
         print(token)
-        time.sleep(5)
+        if token == "undefined":
+            time.sleep(100)
         decode_token = jwt.decode(token, key=SECRET_KEY, algorithms=[ALGORITHM])
         return decode_token
     except jwt.ExpiredSignatureError:
@@ -36,7 +37,7 @@ def decode_token(token: str):
 @exception_handler
 async def type_required(
     type: str,
-    token: str = Header(None),
+    token: str,
 ):
     async with get_session_contextly() as session:
 
@@ -50,5 +51,5 @@ async def type_required(
 
         return user
 
-async def admin_required(token: str = Header(None)):
+async def admin_required(token: str):
     return await type_required(type="admin", token=token)
