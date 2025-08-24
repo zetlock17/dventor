@@ -30,7 +30,7 @@ class Application(base):
     __tablename__ = "appllications"
 
     id: int = Column(Integer, primary_key=True)
-    login: str = Column(String, nullable=False, unique=True)
+    login: str = Column(String, nullable=False)
     password: str = Column(String, nullable=False)
     username: str = Column(String, nullable=False)
     specialization: str = Column(String, nullable=True)

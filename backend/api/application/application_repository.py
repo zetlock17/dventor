@@ -21,8 +21,8 @@ class ApplicationRepository:
         if not application_data:
             return None
         
-        result = (await self.session.execute(select(Application).where(Application.telegram_id == telegram_data["telegram_id"] and Application.status != ApplicationStatus.CANCELLED))).first()
-
+        result = (await self.session.execute(select(Application).where(Application.telegram_id == telegram_data["telegram_id"], Application.status != ApplicationStatus.CANCELLED))).scalar()
+        
         if result:
             return None
         
