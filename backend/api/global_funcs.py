@@ -2,18 +2,12 @@ from functools import wraps
 from fastapi import HTTPException
 from sqlalchemy import select
 from dotenv import load_dotenv
-import os
+from config import ADMIN_LOGIN, ADMIN_PASSWORD
 import logging
 from database.database import get_session_contextly
 from database.models import User, UserType
 from .exceptions import InternalServerErrorHttpException
 from argon2 import PasswordHasher
-
-load_dotenv()
-ADMIN_LOGIN = os.getenv("ADMIN_LOGIN")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
-
-
 
 
 logger = logging.getLogger(__name__)

@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from ..exceptions import ApplicationDuplicateErrorHttpException, ApplicationNotFoundErrorHttpException
+from .application_func import bot_send_message
+from ..exceptions import ApplicationDuplicateErrorHttpException, ApplicationNotFoundErrorHttpException, LoginIsTakenErrorHttpException
 from .application_schemas import ApplicationCreateSchema, TelegramDataSchema
 from .application_repository import ApplicationRepository
 from ..auth.auth_service import AuthService
@@ -17,6 +18,10 @@ class ApplicationService:
         return applications
 
     async def save_application(self, application: ApplicationCreateSchema):
+
+        if not await self.auth_service.auth_repository.login_free_check(login=application.login):
+            raise LoginIsTakenErrorHttpException()
+
         application_uuid = str(uuid.uuid4())
         application_data = application.model_dump()
         await self.application_repository.save_application(application_uuid=application_uuid, application_data=application_data)
@@ -55,5 +60,8 @@ class ApplicationService:
 
         await self.auth_service.register_mentor(register_data=register_data)
 
+        await bot_send_message(text=f"Ваша заявка была принята!\nЛогин: {application.login}\nПароль: {application.password}", chat_id=application.telegram_id)
+
     async def application_cancel(self, application_id: int):
-        await self.application_repository.application_cancel(application_id=application_id)
+        application = await self.application_repository.application_cancel(application_id=application_id)
+        await bot_send_message(text=f"Ваша заявка была отклонена.", chat_id=application.telegram_id)

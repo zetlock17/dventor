@@ -1,5 +1,5 @@
 from fastapi_restful.cbv import cbv
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Header
 from ..global_funcs import exception_handler
 from .auth_service import AuthService
 from database.database import get_session_obj
@@ -31,6 +31,6 @@ class AuthContoller:
     
     @auth_controller.post("/refresh-token", summary="Выдача нового токена")
     @exception_handler
-    async def get_new_access_token(self, refresh_token: str) -> str:
+    async def get_new_access_token(self, refresh_token: str = Header(None)) -> str:
         token = await self.auth_service.get_new_access_token(refresh_token=refresh_token)
         return token

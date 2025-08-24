@@ -43,4 +43,5 @@ class ApplicationRepository:
         result = await self.session.execute(select(Application).where(Application.id == application_id))
         application = result.scalar()
         application.status = ApplicationStatus.CANCELLED
+        return application
         

@@ -17,7 +17,7 @@ class AuthService:
 
     async def register_mentor(self, register_data: dict):
         if not await self.auth_repository.login_free_check(login=register_data['login']):
-            raise LoginIsTakenErrorHttpException
+            raise LoginIsTakenErrorHttpException()
         
         register_data['password'] = self.password_hasher.hash(register_data['password'])
 

@@ -33,7 +33,7 @@ class ApplicationNotFoundErrorHttpException(HTTPException):
 
 class ApplicationDuplicateErrorHttpException(HTTPException):
     def __init__(self):
-        message = "Вы пытаетесь повторно отправить заявку или такой заявка не найдена"
+        message = "Вы пытаетесь повторно отправить заявку или такая заявка не найдена"
         super().__init__(status_code=500, detail=message)
 
 class UserNotFoundHttpExceptionErrorHttpException(HTTPException):
@@ -42,6 +42,11 @@ class UserNotFoundHttpExceptionErrorHttpException(HTTPException):
         super().__init__(status_code=500, detail=message)
 
 class NotHaveAccessExceptionErrorHttpException(HTTPException):
+    def __init__(self):
+        message = "Нет доступа"
+        super().__init__(status_code=500, detail=message)
+
+class BotSendMessageErrorHttpException(HTTPException):
     def __init__(self):
         message = "Нет доступа"
         super().__init__(status_code=500, detail=message)

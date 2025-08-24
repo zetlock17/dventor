@@ -47,5 +47,5 @@ async def type_required(
 
         return user
 
-async def admin_required(token: str = Header(None, alias="token")):
+async def admin_required(token: str = Header(None)):
     return await type_required(type="admin", token=token)
