@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Header
 from ..global_funcs import exception_handler
 from .auth_service import AuthService
 from database.database import get_session_obj
-from .auth_schemas import AuthAnswerSchema, LoginMentorSchema, RegisterMentorSchema
+from .auth_schemas import AuthAnswerSchema, LoginMentorSchema
 from sqlalchemy.ext.asyncio import AsyncSession
 
 auth_controller = APIRouter()
@@ -21,12 +21,6 @@ class AuthContoller:
     @exception_handler
     async def login(self, login_data: LoginMentorSchema) -> AuthAnswerSchema:
         tokens = await self.auth_service.login_mentor(login_data=login_data)
-        return tokens
-
-    @auth_controller.post("/register/mentor", summary="Регистрация нового ментора")
-    @exception_handler
-    async def register_mentor(self, register_data: RegisterMentorSchema) -> AuthAnswerSchema:
-        tokens = await self.auth_service.register_mentor(register_data=register_data)
         return tokens
     
     @auth_controller.post("/refresh-token", summary="Выдача нового токена")
