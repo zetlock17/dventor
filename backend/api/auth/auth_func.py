@@ -11,7 +11,7 @@ from ..global_funcs import exception_handler
 def make_access_token(user_id: int):
     return  jwt.encode({
         "user_id": user_id,
-        "exp": datetime.utcnow() + timedelta(seconds=10)
+        "exp": datetime.utcnow() + timedelta(minutes=15)
     }, key=SECRET_KEY, algorithm=ALGORITHM)
 
 
