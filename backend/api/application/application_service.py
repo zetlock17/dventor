@@ -48,10 +48,23 @@ class ApplicationService:
         if not application:
             raise ApplicationNotFoundErrorHttpException()
         
-        register_data = application.__dict__.copy()
-        
-        if 'status' in register_data:
-            del register_data['status']
+        register_data = {
+            "login": application.login,
+            "password": application.password,
+            "name": application.name,
+            "surnmae": application.surname,
+            "age": application.age,
+            "city": application.city,
+            "place_of_study": application.place_of_study,
+            "experience": application.experience,
+            "company": application.company,
+            "post": application.post,
+            "descriptiion": application.descriptiion,
+            "specialization": application.specialization,
+            "stack": application.stack,
+            "telegram_id": application.telegram_id,
+            "telegram_username": application.telegram_username
+        }
 
         await self.auth_service.register_mentor(register_data=register_data)
 

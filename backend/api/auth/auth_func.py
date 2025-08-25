@@ -24,9 +24,6 @@ def make_refresh_token(user_id: int):
 
 def decode_token(token: str):
     try:
-        print(token)
-        if token == "undefined":
-            time.sleep(100)
         decode_token = jwt.decode(token, key=SECRET_KEY, algorithms=[ALGORITHM])
         return decode_token
     except jwt.ExpiredSignatureError:
