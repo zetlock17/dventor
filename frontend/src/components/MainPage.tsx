@@ -36,11 +36,19 @@ const MainPage = () => {
             <div className='flex gap-4'>
               <div className="w-15 h-15 rounded-full border border-neutral-300 "/>
               <div>
-                <h3 className='text-center font-semibold'>{mentor.username}</h3>
+                <p className='text-center text-[var(--main-purple)]'>{mentor.name}</p>
+                <p className='text-center text-[var(--main-purple)]'>{mentor.surname}</p>
                 <p className='text-center text-[var(--main-purple)]'>{mentor.specialization}</p>
               </div>
             </div>
-              <p>Опыт: {mentor.experience} лет</p>
+              <p>Опыт: {mentor.experience}</p>
+              <p>Опыт: {mentor.city}</p>
+              <p>Опыт: {mentor.company}</p>
+              <p>Опыт: {mentor.descriptiion}</p>
+              <p>Опыт: {mentor.place_of_study}</p>
+              <p>Опыт: {mentor.post}</p>
+              <p>Опыт: {mentor.specialization}</p>
+              <p>Опыт: {mentor.stack}</p>
             <div className='bg-neutral-200 h-0.5'/>
           </li>
         ))}

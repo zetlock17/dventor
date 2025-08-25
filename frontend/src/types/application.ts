@@ -1,17 +1,32 @@
 export interface newApplication {
-    username: string,
     login: string,
     password: string,
+    name: string,
+    surname: string,
+    age: number,
+    city: string,
+    place_of_study: string,
+    experience: number,
+    company: string,
+    post: string,
+    descriptiion: string,
     specialization: string,
-    experience: string,
+    stack: string[]
 }
 
 export interface application {
     id: number,
-    username: string,
-    specialization: string,
+    name: string,
+    surname: string,
+    age: number,
+    city: string,
+    place_of_study: string,
     experience: number,
-    telegram_id: string,
+    company: string,
+    post: string,
+    description: string,
+    specialization: string,
+    stack: string[],
     telegram_username: string,
     status: string,
 }

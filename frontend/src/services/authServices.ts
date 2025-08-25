@@ -28,9 +28,10 @@ export const refreshToken = async (token: string | null): Promise<string> => {
   try {
     const response = await postRequest<string>('auth/refresh-token', token);
     console.log('Refresh token response:', response);
-    if (response.data && response.data) {
+    if (response.data) {
       setAccessToken(response.data);
     }
+    window.location.reload();
     return response.data;
   } catch (error) {
     console.error('Failed to refresh token:', error);

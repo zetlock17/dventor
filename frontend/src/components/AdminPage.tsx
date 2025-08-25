@@ -35,10 +35,17 @@ const AdminPage = () => {
         <ul className="space-y-4 text-lg">
           {applications.map((app) => (
             <li key={app.id}>
-                <p>Username: {app.username}</p>
+                <p>{app.name}</p>
+                <p>{app.surname}</p>
+                <p>{app.age}</p>
+                <p>{app.place_of_study}</p>
+                <p>{app.company}</p>
+                <p>{app.post}</p>
+                <p>{app.description}</p>
+                <p>{app.stack}</p>
+                <p>{app.name}</p>
                 <p>Specialization: {app.specialization}</p>
                 <p>Experience: {app.experience}</p>
-                <p>Telegram ID: {app.telegram_id}</p>
                 <p>Telegram Username: @{app.telegram_username}</p>
                 <div className="flex space-x-2">
                   <button onClick={() => handleConfirm(app.id)} className="bg-green-500 text-white px-4 py-2 rounded">Confirm</button>

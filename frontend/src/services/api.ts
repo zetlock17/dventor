@@ -11,7 +11,7 @@ export interface ApiResponse<T = unknown> {
 
 const api: AxiosInstance = axios.create({
   // baseURL: import.meta.env.VITE_API_URL,
-  baseURL: 'http://localhost:8001',
+  baseURL: 'http://localhost:8000',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

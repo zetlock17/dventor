@@ -15,7 +15,7 @@ class ApplicationGetSchema(BaseModel):
     descriptiion: str = Field(...)
     specialization: str = Field(...)
     stack: list[str] = Field(...)
-
+    telegram_username: str = Field(...)
     status: ApplicationStatus = Field(...)
 
     class Config:
